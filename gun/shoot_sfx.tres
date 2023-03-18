@@ -1,0 +1,29 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=9 format=3 uid="uid://cuadoqhtexgba"]
+
+[ext_resource type="AudioStream" uid="uid://bxiffxmvs3yl6" path="res://audio/sfx/shoot - 01 Start - miniBit.wav" id="1_wwgwp"]
+[ext_resource type="AudioStream" uid="uid://bxs1ejmbbncqw" path="res://audio/sfx/shoot - 02 - miniBit.wav" id="2_ixgq4"]
+[ext_resource type="AudioStream" uid="uid://c1grqy3dxn7t6" path="res://audio/sfx/shoot - 03 - miniBit.wav" id="3_macpm"]
+[ext_resource type="AudioStream" uid="uid://cwagli2uwocs8" path="res://audio/sfx/shoot - 04 - miniBit.wav" id="4_co376"]
+[ext_resource type="AudioStream" uid="uid://dxla24iuq13fx" path="res://audio/sfx/shoot - 05 - miniBit.wav" id="5_y2iel"]
+[ext_resource type="AudioStream" uid="uid://b03wh5mbw0juo" path="res://audio/sfx/shoot - 06 - miniBit.wav" id="6_4e3fo"]
+[ext_resource type="AudioStream" uid="uid://dh4cll8wabvrd" path="res://audio/sfx/shoot - 07 - miniBit.wav" id="7_wif46"]
+[ext_resource type="AudioStream" uid="uid://drm53nvy1t3ar" path="res://audio/sfx/shoot - 08 - miniBit.wav" id="8_8k00w"]
+
+[resource]
+streams_count = 8
+stream_0/stream = ExtResource("1_wwgwp")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("2_ixgq4")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("3_macpm")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("4_co376")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("5_y2iel")
+stream_4/weight = 1.0
+stream_5/stream = ExtResource("6_4e3fo")
+stream_5/weight = 1.0
+stream_6/stream = ExtResource("7_wif46")
+stream_6/weight = 1.0
+stream_7/stream = ExtResource("8_8k00w")
+stream_7/weight = 1.0

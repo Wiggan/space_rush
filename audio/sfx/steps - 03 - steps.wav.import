@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://drypesix3bgju"
+path="res://.godot/imported/steps - 03 - steps.wav-c4a969563e76abc0e535df8cd3038750.sample"
+
+[deps]
+
+source_file="res://audio/sfx/steps - 03 - steps.wav"
+dest_files=["res://.godot/imported/steps - 03 - steps.wav-c4a969563e76abc0e535df8cd3038750.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

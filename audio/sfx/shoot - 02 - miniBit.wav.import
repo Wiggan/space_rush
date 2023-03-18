@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bxs1ejmbbncqw"
+path="res://.godot/imported/shoot - 02 - miniBit.wav-97adf7130fe0e07f7ae249fdabbb2058.sample"
+
+[deps]
+
+source_file="res://audio/sfx/shoot - 02 - miniBit.wav"
+dest_files=["res://.godot/imported/shoot - 02 - miniBit.wav-97adf7130fe0e07f7ae249fdabbb2058.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

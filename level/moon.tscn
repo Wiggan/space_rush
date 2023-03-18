@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://btcj4onun3upi"]
+
+[ext_resource type="PackedScene" uid="uid://ptte4ipxoxac" path="res://player/player.tscn" id="1_ekgim"]
+[ext_resource type="AudioStream" uid="uid://5wptw0xp181" path="res://audio/music/main_theme.ogg" id="3_hnec0"]
+[ext_resource type="PackedScene" uid="uid://cgubypepml1db" path="res://level/models.glb" id="4_oir02"]
+[ext_resource type="MeshLibrary" uid="uid://dbwbfsssr430j" path="res://level/gridmap.meshlib" id="5_gd0vq"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_uaelc"]
+
+[sub_resource type="Sky" id="Sky_4tukg"]
+sky_material = SubResource("PhysicalSkyMaterial_uaelc")
+
+[sub_resource type="Environment" id="Environment_5300f"]
+background_mode = 2
+sky = SubResource("Sky_4tukg")
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xho17"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="PointMesh" id="PointMesh_ig4nc"]
+material = SubResource("StandardMaterial3D_xho17")
+
+[node name="moon" type="Node3D"]
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("1_ekgim")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.39643, 14.3682, -3.9095)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5300f")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_hnec0")
+autoplay = true
+bus = &"Music"
+
+[node name="Stars" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.623856, 19.3301, -0.315756)
+amount = 302
+mesh = SubResource("PointMesh_ig4nc")
+emission_shape = 2
+emission_sphere_radius = 128.0
+gravity = Vector3(0, 0, 0)
+hue_variation_max = 0.59
+
+[node name="models" parent="." instance=ExtResource("4_oir02")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -319.685, 3.02173, -108.776)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(0.965926, 1.13133e-08, -0.258819, 0.258819, -4.2222e-08, 0.965926, 0, -1, -4.37114e-08, -8.54704, 44.1099, -0.31576)
+light_energy = 16.0
+spot_range = 96.801
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("5_gd0vq")
+cell_size = Vector3(5, 5, 5)
+data = {
+"cells": PackedInt32Array(-262133, 65533, 1441792, -262131, 65533, 1048579, -327665, 65533, 1441793, -327665, 65535, 655360, -327663, 1, 1048576, -327665, 1, 1048577, -327661, 1, 1048579, -393194, 1, 1048578)
+}
+metadata/_editor_floor_ = Vector3(0, -6, 0)
