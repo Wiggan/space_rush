@@ -1,10 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://ptte4ipxoxac"]
+[gd_scene load_steps=21 format=3 uid="uid://ptte4ipxoxac"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_0ngqd"]
 [ext_resource type="PackedScene" uid="uid://ccui5xphixht8" path="res://gun/gun.tscn" id="1_ugslo"]
 [ext_resource type="AudioStream" uid="uid://xhl3gjkylpt4" path="res://player/walk_sfx.tres" id="3_8h0x5"]
 [ext_resource type="AudioStream" uid="uid://cdn2q5ki3lkga" path="res://player/jump_sfx.tres" id="4_u4k3n"]
 [ext_resource type="AudioStream" uid="uid://bals3yb0ec42p" path="res://player/lower_sfx.tres" id="5_88dsy"]
+[ext_resource type="Script" path="res://player/HUD.gd" id="6_gqvfd"]
+[ext_resource type="FontFile" uid="uid://cgt1sfn1x2cfc" path="res://Gruppo-Regular.ttf" id="7_2p13q"]
+[ext_resource type="PackedScene" uid="uid://cbi7cm07t4osu" path="res://gold/gold.glb" id="8_ytrhv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4nais"]
 
@@ -163,6 +166,105 @@ _data = {
 "walk": SubResource("Animation_3yltt")
 }
 
+[sub_resource type="Animation" id="Animation_e8fxs"]
+resource_name = "new_animation"
+length = 1.714
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../HBoxContainer2/SubViewportContainer:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.12),
+"transitions": PackedFloat32Array(1, 0.353553),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1.33333, 1.33333, 1.33333, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HealthBar:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.13, 0.85, 0.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.890196, 0, 0, 1), Color(1.18, 0, 0, 1), Color(0.890196, 0, 0, 1), Color(1.18, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_j60yp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../HBoxContainer2/SubViewportContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HealthBar:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.890196, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wkp2v"]
+_data = {
+"RESET": SubResource("Animation_j60yp"),
+"new_animation": SubResource("Animation_e8fxs")
+}
+
+[sub_resource type="Animation" id="Animation_k55ta"]
+resource_name = "new_animation"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1.3, 1.3, 1), Color(0.85098, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_uy830"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_guw6r"]
+_data = {
+"RESET": SubResource("Animation_uy830"),
+"new_animation": SubResource("Animation_k55ta")
+}
+
 [node name="CharacterBody3D" type="CharacterBody3D"]
 collision_layer = 2
 script = ExtResource("1_0ngqd")
@@ -180,6 +282,10 @@ transform = Transform3D(-1, 0, -2.53518e-06, 0, 1, 0, 2.53518e-06, 0, -1, 0.5055
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.180815, 0)
 fov = 90.0
 
+[node name="RayCast3D" type="RayCast3D" parent="pivot/Camera3D"]
+target_position = Vector3(0, 0, -400)
+collision_mask = 5
+
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.820186, 0)
 bus = &"SFX"
@@ -188,3 +294,110 @@ bus = &"SFX"
 libraries = {
 "": SubResource("AnimationLibrary_3b0eh")
 }
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_gqvfd")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 21.0
+offset_top = -58.0
+offset_right = 392.0
+offset_bottom = -24.0
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="HUD/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("7_2p13q")
+theme_override_font_sizes/font_size = 28
+text = "HEALTH:"
+vertical_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="HUD/HBoxContainer"]
+modulate = Color(0.890196, 0, 0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+value = 100.0
+show_percentage = false
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HUD"]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 21.0
+offset_right = 577.0
+offset_bottom = 121.0
+theme_override_constants/separation = 6
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="SubViewport" type="SubViewport" parent="HUD/HBoxContainer2/SubViewportContainer"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(100, 100)
+render_target_update_mode = 4
+
+[node name="OmniLight3D" type="OmniLight3D" parent="HUD/HBoxContainer2/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0331989, 0.188948, -1.24486)
+light_energy = 11.95
+
+[node name="Camera3D" type="Camera3D" parent="HUD/HBoxContainer2/SubViewportContainer/SubViewport"]
+projection = 1
+size = 0.197
+
+[node name="gold" parent="HUD/HBoxContainer2/SubViewportContainer/SubViewport" instance=ExtResource("8_ytrhv")]
+transform = Transform3D(-0.0759023, -0.73695, -0.671673, -0.266945, 0.664046, -0.698415, 0.960718, 0.126288, -0.247127, 0, 0, -1.39117)
+
+[node name="GoldCount" type="Label" parent="HUD/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("7_2p13q")
+theme_override_font_sizes/font_size = 70
+text = "0"
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HUD"]
+root_node = NodePath("../HBoxContainer")
+autoplay = "new_animation"
+libraries = {
+"": SubResource("AnimationLibrary_wkp2v")
+}
+
+[node name="Time" type="Label" parent="HUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -52.0
+offset_top = 39.0
+offset_right = 55.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("7_2p13q")
+theme_override_font_sizes/font_size = 28
+text = "TIME:"
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HUD/Time"]
+autoplay = "new_animation"
+libraries = {
+"": SubResource("AnimationLibrary_guw6r")
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 241.0
+autostart = true

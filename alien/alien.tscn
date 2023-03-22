@@ -1,0 +1,232 @@
+[gd_scene load_steps=24 format=3 uid="uid://bwb2q5f1c3u0f"]
+
+[ext_resource type="Script" path="res://alien/alien.gd" id="1_8cxqj"]
+[ext_resource type="PackedScene" uid="uid://dogxi7ua7nr68" path="res://alien/alien.glb" id="1_g6xkx"]
+[ext_resource type="ArrayMesh" uid="uid://cbnlamm2eyc82" path="res://alien/eye.res" id="3_4f3k5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_c75k4"]
+radius = 1.229
+height = 4.669
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8t41b"]
+animation = &"Melee"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x5ibu"]
+animation = &"Shoot"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_6yww5"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_jyebu"]
+fadein_time = 0.19
+fadeout_time = 0.3
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pjqw8"]
+animation = &"Death"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_acf6d"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_noknn"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_4klws"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_0b52t"]
+nodes/Animation/node = SubResource("AnimationNodeAnimation_noknn")
+nodes/Animation/position = Vector2(160, 160)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_4klws")
+nodes/TimeScale/position = Vector2(360, 140)
+nodes/output/position = Vector2(520, 160)
+node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_srmt6"]
+xfade_time = 0.33
+advance_mode = 2
+advance_condition = &"Running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_q3xfc"]
+xfade_time = 0.42
+advance_mode = 2
+advance_condition = &"Idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3341m"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_0u1wp"]
+states/Death/node = SubResource("AnimationNodeAnimation_pjqw8")
+states/Death/position = Vector2(493, 223)
+states/Idle/node = SubResource("AnimationNodeAnimation_acf6d")
+states/Idle/position = Vector2(400, 81)
+states/Run/node = SubResource("AnimationNodeBlendTree_0b52t")
+states/Run/position = Vector2(625, 81)
+transitions = ["Idle", "Run", SubResource("AnimationNodeStateMachineTransition_srmt6"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_q3xfc"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_3341m")]
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_ukg7w"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_6o05n"]
+graph_offset = Vector2(-205, -57)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_x5ibu")
+nodes/Animation/position = Vector2(-60, 280)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_8t41b")
+"nodes/Animation 2/position" = Vector2(320, 400)
+nodes/Melee/node = SubResource("AnimationNodeOneShot_6yww5")
+nodes/Melee/position = Vector2(520, 180)
+nodes/Shoot/node = SubResource("AnimationNodeOneShot_jyebu")
+nodes/Shoot/position = Vector2(296, 115)
+nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_0u1wp")
+nodes/StateMachine/position = Vector2(60, 40)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_ukg7w")
+nodes/TimeScale/position = Vector2(140, 260)
+nodes/output/position = Vector2(840, 120)
+node_connections = [&"output", 0, &"Melee", &"Melee", 0, &"Shoot", &"Melee", 1, &"Animation 2", &"Shoot", 0, &"StateMachine", &"Shoot", 1, &"TimeScale", &"TimeScale", 0, &"Animation"]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_sxoyd"]
+
+[sub_resource type="Animation" id="Animation_b5qkg"]
+resource_name = "Blink"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../alien/Armature/Skeleton3D/Body:blend_shapes/Blink")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.101985, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ilhm2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../alien/Armature/Skeleton3D/Body:blend_shapes/Blink")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6ytnt"]
+_data = {
+"Blink": SubResource("Animation_b5qkg"),
+"RESET": SubResource("Animation_ilhm2")
+}
+
+[node name="Alien" type="RigidBody3D"]
+collision_layer = 4
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+script = ExtResource("1_8cxqj")
+
+[node name="alien" parent="." instance=ExtResource("1_g6xkx")]
+transform = Transform3D(-0.322, 0, -4.86206e-08, 0, 0.322, 0, 4.86206e-08, 0, -0.322, 0, 0, 0)
+
+[node name="Eye" parent="alien/Armature" index="0"]
+visible = false
+
+[node name="Skeleton3D" parent="alien/Armature" index="1"]
+bones/0/position = Vector3(0, 0.188221, 0.671533)
+bones/0/rotation = Quaternion(0.664317, -8.85335e-24, -1.47508e-16, 0.747451)
+bones/1/rotation = Quaternion(0.132992, -2.08649e-25, -2.95302e-17, 0.991117)
+bones/2/rotation = Quaternion(-0.180256, 2.35468e-23, 4.00249e-17, 0.98362)
+bones/3/position = Vector3(0.848069, 1.56632, 0.137576)
+bones/3/rotation = Quaternion(-0.0769744, -0.0636313, -0.279951, 0.954806)
+bones/4/rotation = Quaternion(0.206348, 0.00202576, 0.017638, 0.978318)
+bones/5/position = Vector3(1.01897, 0.716174, 0.182583)
+bones/5/rotation = Quaternion(-0.118052, 0.163984, -0.736533, 0.645518)
+bones/6/rotation = Quaternion(0.398803, 0.232134, 0.0661707, 0.884698)
+bones/7/rotation = Quaternion(0.0728766, -0.108019, 0.907942, -0.398324)
+bones/8/rotation = Quaternion(0.142818, 0.476616, 0.0351058, 0.866722)
+bones/9/position = Vector3(-0.668815, 1.56632, 0.0277991)
+bones/9/rotation = Quaternion(-0.0429407, 0.171448, 0.191157, 0.965516)
+bones/10/rotation = Quaternion(0.187665, -0.00203361, -0.016041, 0.9821)
+bones/11/position = Vector3(-0.902069, 0.716174, 0.14012)
+bones/11/rotation = Quaternion(-0.214257, 0.0182136, 0.53688, 0.815795)
+bones/12/rotation = Quaternion(0.42078, -0.229552, -0.0698171, 0.874858)
+bones/13/position = Vector3(-0.252111, -0.0180745, 0.139775)
+bones/13/rotation = Quaternion(-0.0169226, -0.0467698, 0.899897, 0.433258)
+bones/14/rotation = Quaternion(0.00319845, -0.481853, -0.000786155, 0.876246)
+bones/15/position = Vector3(2.01644, 0.246108, 4.26541)
+bones/15/rotation = Quaternion(-0.530176, 0.361415, -0.266408, 0.719249)
+bones/16/position = Vector3(1.72192, 2.28292, 2.83519)
+bones/17/position = Vector3(3.32345, -0.00924158, 0.997163)
+bones/18/position = Vector3(2.18357, 2.41665, 0.982577)
+bones/19/position = Vector3(2.3548, 0.112972, -1.21025)
+bones/19/rotation = Quaternion(-0.201914, 0.437379, -0.10146, 0.870423)
+bones/20/position = Vector3(0.901446, 1.97688, -0.150331)
+bones/21/position = Vector3(-1.37578, 0.23294, 4.46292)
+bones/21/rotation = Quaternion(-0.530176, -0.361415, 0.266408, 0.719249)
+bones/22/position = Vector3(-1.72192, 2.28292, 2.83519)
+bones/23/position = Vector3(-2.98319, -0.00924134, 2.40607)
+bones/24/position = Vector3(-2.18357, 2.41665, 0.982577)
+bones/25/position = Vector3(-2.58085, 0.112972, -1.21025)
+bones/25/rotation = Quaternion(-0.201914, -0.437379, 0.10146, 0.870423)
+bones/26/position = Vector3(-0.979143, 2.20846, -0.170384)
+
+[node name="RootBone" type="BoneAttachment3D" parent="."]
+transform = Transform3D(-0.322, -4.82846e-08, -5.70637e-09, -7.10042e-17, 0.0377916, -0.319775, 4.86206e-08, -0.319775, -0.0377916, -3.26504e-08, 0.0606072, -0.216234)
+bone_name = "Root"
+bone_idx = 0
+use_external_skeleton = true
+external_skeleton = NodePath("../alien/Armature/Skeleton3D")
+
+[node name="HeadBone" type="BoneAttachment3D" parent="."]
+transform = Transform3D(-0.322, -4.75182e-08, -1.02949e-08, -6.98772e-17, 0.0681803, -0.314699, 4.86206e-08, -0.314699, -0.0681803, -1.53791e-07, 0.0259001, -1.01852)
+bone_name = "Head"
+bone_idx = 2
+use_external_skeleton = true
+external_skeleton = NodePath("../alien/Armature/Skeleton3D")
+
+[node name="Node3D" type="Node3D" parent="HeadBone"]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -1.45161e-08, 1.415, 0.166045)
+
+[node name="Eye" type="MeshInstance3D" parent="HeadBone/Node3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+mesh = ExtResource("3_4f3k5")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.32, 0, 0, 0, 0.32, 0, 0, 0, 0.32, 7.31439e-17, 0.764438, -0.193173)
+shape = SubResource("CapsuleShape3D_c75k4")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendTree_6o05n")
+anim_player = NodePath("../alien/AnimationPlayer")
+active = true
+parameters/Melee/active = false
+parameters/Melee/request = 0
+parameters/Shoot/active = false
+parameters/Shoot/request = 0
+parameters/StateMachine/playback = SubResource("AnimationNodeStateMachinePlayback_sxoyd")
+parameters/StateMachine/conditions/Idle = false
+parameters/StateMachine/conditions/Running = false
+parameters/StateMachine/Run/TimeScale/scale = 1.73
+parameters/TimeScale/scale = 0.53
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.402
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Timer"]
+libraries = {
+"": SubResource("AnimationLibrary_6ytnt")
+}
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+target_desired_distance = 2.31
+avoidance_enabled = true
+
+[node name="CooldownTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="Timer/AnimationPlayer" method="play" binds= ["Blink"]]
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]
+
+[editable path="alien"]

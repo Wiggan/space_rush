@@ -1,0 +1,24 @@
+SFX:
+	Alien shoots
+	Alien starts hunting
+	Alien dies
+	Pickup gold
+	
+Models:
+	Spaceship?
+	Decorations
+	Larger room
+	Alien lamp?
+	
+Level:
+	Tunnels with gold and enemies
+	
+Objective:
+	Find as much gold and alien eyes as possible in 3 minutes?
+	There is not much oxygen
+	
+Misc:
+	Initial start button 
+	Pause menu
+	Instructions
+	Run?
