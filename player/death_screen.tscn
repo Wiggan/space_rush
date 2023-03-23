@@ -1,0 +1,134 @@
+[gd_scene load_steps=7 format=3 uid="uid://dncbionrlkfqe"]
+
+[ext_resource type="FontFile" uid="uid://cgt1sfn1x2cfc" path="res://Gruppo-Regular.ttf" id="1_y11qn"]
+[ext_resource type="PackedScene" uid="uid://cbi7cm07t4osu" path="res://gold/gold.glb" id="2_0flpj"]
+[ext_resource type="Script" path="res://player/Button.gd" id="3_omumj"]
+
+[sub_resource type="Animation" id="Animation_phqux"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.101961, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_130r2"]
+resource_name = "new_animation"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.7),
+"transitions": PackedFloat32Array(1, 1.7411, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0.101961, 0, 0, 1), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3rkcw"]
+_data = {
+"RESET": SubResource("Animation_phqux"),
+"new_animation": SubResource("Animation_130r2")
+}
+
+[node name="Control" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101961, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ColorRect"]
+autoplay = "new_animation"
+libraries = {
+"": SubResource("AnimationLibrary_3rkcw")
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -71.0
+offset_top = -63.5
+offset_right = 71.0
+offset_bottom = 63.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 32
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_y11qn")
+theme_override_font_sizes/font_size = 85
+text = "YOUR FINAL SCORE:"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="SubViewport" type="SubViewport" parent="VBoxContainer/HBoxContainer2/SubViewportContainer"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(100, 100)
+render_target_update_mode = 4
+
+[node name="OmniLight3D" type="OmniLight3D" parent="VBoxContainer/HBoxContainer2/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0331989, 0.188948, -1.24486)
+light_energy = 11.95
+
+[node name="Camera3D" type="Camera3D" parent="VBoxContainer/HBoxContainer2/SubViewportContainer/SubViewport"]
+projection = 1
+size = 0.197
+
+[node name="gold" parent="VBoxContainer/HBoxContainer2/SubViewportContainer/SubViewport" instance=ExtResource("2_0flpj")]
+transform = Transform3D(-0.0759023, -0.73695, -0.671673, -0.266945, 0.664046, -0.698415, 0.960718, 0.126288, -0.247127, 0, 0, -1.39117)
+
+[node name="GoldCount" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("1_y11qn")
+theme_override_font_sizes/font_size = 70
+text = "0"
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(400, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("1_y11qn")
+theme_override_font_sizes/font_size = 58
+text = "TRY AGAIN"
+script = ExtResource("3_omumj")
+
+[connection signal="pressed" from="VBoxContainer/Button" to="VBoxContainer/Button" method="start_game"]

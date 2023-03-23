@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c4lqkf58q7nm4"]
+[gd_scene load_steps=24 format=3 uid="uid://c4lqkf58q7nm4"]
 
 [ext_resource type="PackedScene" uid="uid://b0m0uq47vb7oc" path="res://intro/models.glb" id="1_bmbin"]
 [ext_resource type="Environment" uid="uid://de78xvl6w835y" path="res://intro/env.tres" id="2_67vup"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://bweogkxe1s65i" path="res://audio/sfx/talk - miniBit.wav" id="4_3hkom"]
 [ext_resource type="Shader" uid="uid://cf77oix4wlv16" path="res://intro/intro.tres" id="4_cfbdn"]
 [ext_resource type="FontFile" uid="uid://cgt1sfn1x2cfc" path="res://Gruppo-Regular.ttf" id="5_kqivb"]
+[ext_resource type="Script" path="res://intro/AnimationPlayer.gd" id="6_rxu32"]
 [ext_resource type="Script" path="res://intro/start_button.gd" id="7_sao8t"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_csrfk"]
@@ -512,6 +513,7 @@ autoplay = "intro"
 libraries = {
 "": SubResource("AnimationLibrary_m51ba")
 }
+script = ExtResource("6_rxu32")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="6"]
 transform = Transform3D(0.684534, -0.435637, -0.584494, 0, -0.801796, 0.597597, -0.728981, -0.409076, -0.548857, 0, 97.4413, -134.098)

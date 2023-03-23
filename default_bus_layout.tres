@@ -2,8 +2,8 @@
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_otl2l"]
 resource_name = "Reverb"
-hipass = 0.32
-wet = 0.1
+hipass = 0.54
+wet = 0.17
 
 [resource]
 bus/1/name = &"SFX"

@@ -203,6 +203,7 @@ color_ramp = SubResource("Gradient_ujpun")
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="CSGSphere3D"]
 stream = ExtResource("2_gt6qx")
 pitch_scale = 0.44
+bus = &"SFX"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_im4ij")
