@@ -1,17 +1,2 @@
-SFX:
-	Alien shoots
-	Alien starts hunting
-	Alien dies
-	Pickup gold
-	
-Models:
-	Decorations
-	Larger room
-	Alien lamp?
-	
-Level:
-	Tunnels with gold and enemies
-		
-Misc:
-	Initial start button 
-	ui_menu, vad är det i webgl
+dekoration
+death screen musik

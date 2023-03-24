@@ -15,7 +15,13 @@ func _physics_process(delta):
 
 
 func _on_body_entered(body):
+	set_deferred("monitoring", false)
+	$CleanUpTimer.start()
 	set_physics_process(false)
 	$AnimationPlayer.play("explode")
 	if body.has_method("take_damage"):
 		body.take_damage(damage)
+
+
+func _on_clean_up_timer_timeout():
+	queue_free()

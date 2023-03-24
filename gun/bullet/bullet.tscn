@@ -30,7 +30,7 @@ colors = PackedColorArray(0, 0.8, 0.788235, 0.490196, 0.98791, 0.997582, 0.98791
 colors = PackedColorArray(0, 0.8, 0.698039, 0.490196, 0.98791, 0.997582, 0.98791, 0.00592637)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_im4ij"]
-radius = 0.143
+radius = 0.4
 
 [sub_resource type="Animation" id="Animation_3orpx"]
 length = 0.001
@@ -69,6 +69,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.05]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_igvvq"]
@@ -124,6 +136,18 @@ tracks/3/keys = {
 "update": 0,
 "values": [0.05, 0.361, 0.001]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:monitoring")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.9),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u5v07"]
 _data = {
@@ -135,7 +159,7 @@ _data = {
 top_level = true
 collision_layer = 0
 collision_mask = 5
-collision_priority = 4.013
+collision_priority = 0.257
 script = ExtResource("1_tkgm7")
 damage = 40
 
@@ -209,5 +233,9 @@ libraries = {
 "": SubResource("AnimationLibrary_u5v07")
 }
 
+[node name="CleanUpTimer" type="Timer" parent="."]
+wait_time = 3.0
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="queue_free"]
+[connection signal="timeout" from="CleanUpTimer" to="." method="_on_clean_up_timer_timeout"]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dncbionrlkfqe"]
+[gd_scene load_steps=8 format=3 uid="uid://dncbionrlkfqe"]
 
 [ext_resource type="FontFile" uid="uid://cgt1sfn1x2cfc" path="res://Gruppo-Regular.ttf" id="1_y11qn"]
 [ext_resource type="PackedScene" uid="uid://cbi7cm07t4osu" path="res://gold/gold.glb" id="2_0flpj"]
+[ext_resource type="Script" path="res://player/GoldCount.gd" id="3_18q7q"]
 [ext_resource type="Script" path="res://player/Button.gd" id="3_omumj"]
 
 [sub_resource type="Animation" id="Animation_phqux"]
@@ -120,6 +121,7 @@ theme_override_fonts/font = ExtResource("1_y11qn")
 theme_override_font_sizes/font_size = 70
 text = "0"
 vertical_alignment = 1
+script = ExtResource("3_18q7q")
 
 [node name="Button" type="Button" parent="VBoxContainer"]
 custom_minimum_size = Vector2(400, 80)

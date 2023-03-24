@@ -1,8 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://bwb2q5f1c3u0f"]
+[gd_scene load_steps=30 format=3 uid="uid://bwb2q5f1c3u0f"]
 
 [ext_resource type="Script" path="res://alien/alien.gd" id="1_8cxqj"]
 [ext_resource type="PackedScene" uid="uid://dogxi7ua7nr68" path="res://alien/alien.glb" id="1_g6xkx"]
 [ext_resource type="ArrayMesh" uid="uid://cbnlamm2eyc82" path="res://alien/eye.res" id="3_4f3k5"]
+[ext_resource type="AudioStream" uid="uid://dub5yvvdca5e" path="res://audio/sfx/alien_hunt.wav" id="4_ye4v7"]
+[ext_resource type="AudioStream" uid="uid://cpd4yb4pdvqmt" path="res://audio/sfx/alien_shoot.wav" id="5_o8q11"]
+[ext_resource type="AudioStream" uid="uid://bpah4hl7nxo31" path="res://audio/sfx/alien_shooting.wav" id="6_1yqt7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_c75k4"]
 radius = 1.229
@@ -118,6 +121,24 @@ _data = {
 "RESET": SubResource("Animation_ilhm2")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_axlhj"]
+streams_count = 1
+random_pitch = 1.19
+stream_0/stream = ExtResource("4_ye4v7")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7eej2"]
+streams_count = 1
+random_pitch = 1.19
+stream_0/stream = ExtResource("5_o8q11")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_pc7eg"]
+streams_count = 1
+random_pitch = 1.19
+stream_0/stream = ExtResource("6_1yqt7")
+stream_0/weight = 1.0
+
 [node name="Alien" type="RigidBody3D"]
 process_mode = 1
 collision_layer = 4
@@ -132,27 +153,27 @@ transform = Transform3D(-0.322, 0, -4.86206e-08, 0, 0.322, 0, 4.86206e-08, 0, -0
 visible = false
 
 [node name="Skeleton3D" parent="alien/Armature" index="1"]
-bones/0/position = Vector3(0, 1.10549, 0)
+bones/0/position = Vector3(0, 1.25477, 0)
 bones/0/rotation = Quaternion(0.644825, 0, -1.4318e-16, 0.76433)
-bones/1/rotation = Quaternion(-0.335813, 3.38398e-24, 8.28539e-17, 0.941929)
-bones/2/rotation = Quaternion(-0.388398, 1.46583e-23, 7.56065e-17, 0.921492)
+bones/1/rotation = Quaternion(-0.372591, 1.06963e-23, 8.27317e-17, 0.927996)
+bones/2/rotation = Quaternion(-0.33961, 1.93479e-23, 7.54086e-17, 0.940566)
 bones/3/position = Vector3(0.848069, 1.56632, 0.137576)
-bones/3/rotation = Quaternion(0.0320831, -0.183363, -0.216143, 0.958452)
-bones/4/rotation = Quaternion(0.838499, 0.00111855, 0.0716721, 0.540168)
+bones/3/rotation = Quaternion(0.093873, -0.177987, -0.219581, 0.954617)
+bones/4/rotation = Quaternion(0.805374, 0.00121911, 0.0688407, 0.588754)
 bones/5/position = Vector3(1.01897, 0.716174, 0.182583)
-bones/5/rotation = Quaternion(0.160401, -0.151915, -0.612161, 0.759245)
+bones/5/rotation = Quaternion(0.176246, -0.170187, -0.613373, 0.750831)
 bones/6/rotation = Quaternion(0.0031218, 0.253795, 0.000517968, 0.967253)
-bones/7/rotation = Quaternion(0.126061, -0.0913454, 0.78758, -0.596224)
-bones/8/rotation = Quaternion(0.575503, 0.388121, 0.141463, 0.705795)
+bones/7/rotation = Quaternion(0.119074, -0.0373664, 0.805905, -0.578741)
+bones/8/rotation = Quaternion(0.542735, 0.399574, 0.133408, 0.726623)
 bones/9/position = Vector3(-0.668815, 1.56632, 0.0277991)
-bones/9/rotation = Quaternion(0.0721473, 0.18442, 0.252109, 0.94722)
-bones/10/rotation = Quaternion(0.813518, -0.00119555, -0.0695367, 0.577367)
+bones/9/rotation = Quaternion(0.131572, 0.182814, 0.254517, 0.940473)
+bones/10/rotation = Quaternion(0.775633, -0.00129976, -0.0662985, 0.627692)
 bones/11/position = Vector3(-0.902069, 0.716174, 0.14012)
-bones/11/rotation = Quaternion(0.156803, 0.1531, 0.616591, 0.756167)
+bones/11/rotation = Quaternion(0.171881, 0.170728, 0.617782, 0.748101)
 bones/12/rotation = Quaternion(0.00314335, -0.253795, -0.000521555, 0.967253)
 bones/13/position = Vector3(-0.252111, -0.0180746, 0.139776)
-bones/13/rotation = Quaternion(0.00780177, -0.0038997, 0.786604, 0.617397)
-bones/14/rotation = Quaternion(0.279881, -0.461409, -0.068797, 0.839068)
+bones/13/rotation = Quaternion(0.0400315, 0.0542749, 0.795794, 0.601801)
+bones/14/rotation = Quaternion(0.20455, -0.471045, -0.05028, 0.856591)
 bones/15/position = Vector3(0.620707, 0.259275, 2.38248)
 bones/15/rotation = Quaternion(-0.530176, 0.361415, -0.266408, 0.719249)
 bones/16/position = Vector3(1.72192, 1.71673, 3.42799)
@@ -174,24 +195,24 @@ bones/26/position = Vector3(-0.979143, 1.65543, -0.341559)
 blend_shapes/Shoot = 1.0
 
 [node name="RootBone" type="BoneAttachment3D" parent="."]
-transform = Transform3D(1, 2.18874e-16, -1.84652e-16, -2.18874e-16, 0.168401, -0.985719, -1.84652e-16, 0.985719, 0.168401, 0, 1.10549, 0)
+transform = Transform3D(1, 2.18874e-16, -1.84652e-16, -2.18874e-16, 0.168401, -0.985719, -1.84652e-16, 0.985719, 0.168401, 0, 1.25477, 0)
 bone_name = "Root"
 bone_idx = 0
 use_external_skeleton = true
 external_skeleton = NodePath("../alien/Armature/Skeleton3D")
 
 [node name="HeadBone" type="BoneAttachment3D" parent="."]
-transform = Transform3D(1, -5.31321e-18, -7.53293e-18, 5.9062e-18, 0.996711, 0.081043, 7.07756e-18, -0.081043, 0.996711, 4.16224e-16, 2.41643, 1.98106)
+transform = Transform3D(1, -1.22094e-17, -3.35557e-19, 1.22093e-17, 0.998487, 0.0549869, -3.36289e-19, -0.0549869, 0.998487, 4.19265e-16, 2.6404, 1.8882)
 bone_name = "Head"
 bone_idx = 2
 use_external_skeleton = true
 external_skeleton = NodePath("../alien/Armature/Skeleton3D")
 
 [node name="Node3D" type="Node3D" parent="HeadBone"]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -1.6653e-09, 1.43874, 0.080938)
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -3.74235e-07, 1.38658, 0.096534)
 
 [node name="Eye" type="MeshInstance3D" parent="HeadBone/Node3D"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 mesh = ExtResource("3_4f3k5")
 skeleton = NodePath("../..")
 
@@ -228,8 +249,25 @@ avoidance_enabled = true
 
 [node name="CooldownTimer" type="Timer" parent="."]
 
+[node name="Hunt" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamRandomizer_axlhj")
+bus = &"SFX"
+
+[node name="Death" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamRandomizer_7eej2")
+bus = &"SFX"
+
+[node name="Shoot" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamRandomizer_pc7eg")
+bus = &"SFX"
+
+[node name="CleanUpTimer" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true
+
 [connection signal="timeout" from="Timer" to="Timer/AnimationPlayer" method="play" binds= ["Blink"]]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
 [connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]
+[connection signal="timeout" from="CleanUpTimer" to="." method="_on_clean_up_timer_timeout"]
 
 [editable path="alien"]

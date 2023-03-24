@@ -31,7 +31,7 @@ func _on_sens_slider_value_changed(value):
 
 
 func _on_brightness_slider_value_changed(value):
-	$"../../../pivot/Camera3D".set("attributes/exposure_multiplier", value)
+	$"../../../pivot/Camera3D".attributes.set("exposure_multiplier", value)
 
 
 func _on_menu_visibility_changed():

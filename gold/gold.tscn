@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://byr8ilo47blxj"]
+[gd_scene load_steps=13 format=3 uid="uid://byr8ilo47blxj"]
 
 [ext_resource type="Script" path="res://gold/gold.gd" id="1_k4q8n"]
 [ext_resource type="PackedScene" uid="uid://cbi7cm07t4osu" path="res://gold/gold.glb" id="1_vcqy3"]
+[ext_resource type="AudioStream" uid="uid://b2jrlpcoiso0f" path="res://audio/sfx/pickup_gold.wav" id="3_ghf5h"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f6nq5"]
 shading_mode = 0
@@ -21,7 +22,7 @@ offsets = PackedFloat32Array(0, 0.562823, 1)
 colors = PackedColorArray(1, 0.8, 0, 0.490196, 1, 0.909804, 0, 0.0705882, 2.96, 2.96, 0.99, 0.01)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_qro5t"]
-radius = 0.429
+radius = 0.847
 
 [sub_resource type="Animation" id="Animation_sb8u8"]
 length = 0.001
@@ -83,7 +84,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(1, 1, 1)]
+"values": [Vector3(2.631, 2.631, 2.631)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -186,7 +187,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(1, 1, 1), Vector3(0, 0, 0)]
+"values": [Vector3(2.294, 2.294, 2.294), Vector3(0, 0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -252,7 +253,7 @@ collision_mask = 2
 script = ExtResource("1_k4q8n")
 
 [node name="gold" parent="." instance=ExtResource("1_vcqy3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.265878, 0)
+transform = Transform3D(2.631, 0, 0, 0, 2.631, 0, 0, 0, 2.631, 0, 0.265878, 0)
 
 [node name="Node3D" type="Node3D" parent="gold"]
 transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0.131858, 0, 5.3324e-09)
@@ -295,5 +296,9 @@ autoplay = "Spinning"
 libraries = {
 "": SubResource("AnimationLibrary_k3xcg")
 }
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ghf5h")
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

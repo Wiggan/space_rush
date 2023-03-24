@@ -1,0 +1,390 @@
+[gd_scene load_steps=20 format=3 uid="uid://due3va2hbcml"]
+
+[ext_resource type="PackedScene" uid="uid://b0m0uq47vb7oc" path="res://intro/models.glb" id="1_dhep0"]
+[ext_resource type="Environment" uid="uid://de78xvl6w835y" path="res://intro/env.tres" id="2_vo1ml"]
+[ext_resource type="Texture2D" uid="uid://erdbubjq3330" path="res://intro/scope.png" id="7_1wr3r"]
+[ext_resource type="PackedScene" uid="uid://bwb2q5f1c3u0f" path="res://alien/alien.tscn" id="7_mkrw3"]
+[ext_resource type="Shader" uid="uid://cf77oix4wlv16" path="res://intro/intro.tres" id="8_ojq4c"]
+[ext_resource type="FontFile" uid="uid://cgt1sfn1x2cfc" path="res://Gruppo-Regular.ttf" id="9_s63ex"]
+[ext_resource type="Script" path="res://intro/start_button.gd" id="10_n5ba5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_csrfk"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.372549, 0.372549, 0.372549, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ue6wc"]
+material = SubResource("StandardMaterial3D_csrfk")
+
+[sub_resource type="Curve" id="Curve_268jf"]
+_data = [Vector2(0, 1), 0.0, 1.4, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_jtrtc"]
+offsets = PackedFloat32Array(0, 0.309811, 1)
+colors = PackedColorArray(11.84, 4.15, 0, 1, 2.96, 0.4, 0.4, 1, 0.28485, 0.28485, 0.28485, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ap5io"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="PointMesh" id="PointMesh_2ylw8"]
+material = SubResource("StandardMaterial3D_ap5io")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mggod"]
+shader = ExtResource("8_ojq4c")
+shader_parameter/FloatParameter = 0.35
+
+[sub_resource type="Animation" id="Animation_kqqph"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible_characters_behavior")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible_ratio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ovtna"]
+resource_name = "loading"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible_characters_behavior")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [3, 4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible_ratio")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0yihg"]
+_data = {
+"RESET": SubResource("Animation_kqqph"),
+"loading": SubResource("Animation_ovtna")
+}
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_x1dfl"]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_s481b"]
+
+[node name="models" instance=ExtResource("1_dhep0")]
+
+[node name="golden_meteor" parent="." index="0"]
+transform = Transform3D(0.25504, 0.64466, 0.720672, -0.170462, 0.763622, -0.622755, -0.951786, 0.0359802, 0.304644, 0, 15.0934, 15.1502)
+
+[node name="moon" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.85302, -26.2829)
+
+[node name="Explosion" type="CPUParticles3D" parent="moon" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.37182, 15.4723)
+emitting = false
+amount = 75
+lifetime = 4.22
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 1.0
+mesh = SubResource("BoxMesh_ue6wc")
+emission_shape = 1
+emission_sphere_radius = 1.26
+direction = Vector3(0, 0, 1)
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 0.71
+initial_velocity_max = 2.28
+angular_velocity_min = -183.62
+angular_velocity_max = 144.97
+angle_min = -154.7
+angle_max = 154.6
+scale_amount_curve = SubResource("Curve_268jf")
+color_ramp = SubResource("Gradient_jtrtc")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="2"]
+environment = ExtResource("2_vo1ml")
+
+[node name="Stars" type="CPUParticles3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.3084, 0)
+amount = 302
+mesh = SubResource("PointMesh_2ylw8")
+emission_shape = 2
+emission_sphere_radius = 128.0
+gravity = Vector3(0, 0, 0)
+hue_variation_max = 0.59
+
+[node name="Camera3D" type="Camera3D" parent="." index="4"]
+transform = Transform3D(-0.124959, -0.124467, -0.984324, 0, 0.9921, -0.125451, 0.992162, -0.0156762, -0.123972, -71.0225, 0.714506, 5.14426)
+fov = 60.9383
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="5"]
+transform = Transform3D(0.684534, -0.435637, -0.584494, 0, -0.801796, 0.597597, -0.728981, -0.409076, -0.548857, 0, 97.4413, -134.098)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." index="6"]
+pitch_scale = 0.28
+bus = &"SFX"
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="." index="7"]
+volume_db = -16.952
+bus = &"SFX"
+
+[node name="Control" type="Control" parent="." index="8"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_1wr3r")
+expand_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="Control" index="1"]
+visible = false
+material = SubResource("ShaderMaterial_mggod")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control" index="2"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -404.0
+offset_top = -204.0
+offset_right = -38.0
+offset_bottom = -38.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("9_s63ex")
+theme_override_font_sizes/normal_font_size = 36
+text = "Oh my goodness!
+That meteor looked like a flying gold mine!
+Moon, here I come!"
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="Button" type="Button" parent="Control" index="3"]
+visible = false
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("9_s63ex")
+theme_override_font_sizes/font_size = 35
+text = "Start the game already!"
+script = ExtResource("10_n5ba5")
+
+[node name="ColorRect2" type="ColorRect" parent="Control" index="4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="Control" index="5"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -103.0
+offset_top = -34.5
+offset_right = 103.0
+offset_bottom = 34.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("9_s63ex")
+theme_override_font_sizes/normal_font_size = 36
+text = "Loading..."
+visible_characters = 0
+visible_characters_behavior = 3
+visible_ratio = 0.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/RichTextLabel2" index="1"]
+autoplay = "loading"
+libraries = {
+"": SubResource("AnimationLibrary_0yihg")
+}
+
+[node name="Alien" parent="." index="9" instance=ExtResource("7_mkrw3")]
+transform = Transform3D(0.314583, 0.21516, 0.924523, -0.550467, 0.834828, -0.00698126, -0.77332, -0.506724, 0.381061, -65.429, -3.451, 12.845)
+freeze = true
+script = null
+
+[node name="Skeleton3D" parent="Alien/alien/Armature" index="1"]
+bones/0/position = Vector3(-6.33475e-17, 2.18026, 0.0370636)
+bones/0/rotation = Quaternion(0.0119776, -2.58512e-26, -3.59042e-17, 0.999928)
+bones/1/rotation = Quaternion(-0.0385663, -1.44864e-24, 1.15607e-16, 0.999256)
+bones/2/rotation = Quaternion(0.0284422, 4.03414e-24, -8.52586e-17, 0.999595)
+bones/3/position = Vector3(0.780604, 1.56632, 7.60903e-08)
+bones/3/rotation = Quaternion(-0.198862, -0.0367696, -0.479665, 0.853828)
+bones/4/rotation = Quaternion(0.328374, 0.00195497, 0.0280684, 0.944129)
+bones/5/position = Vector3(1.02086, 0.716174, 0.113354)
+bones/5/rotation = Quaternion(0.0406226, 0.212263, -0.746072, 0.629818)
+bones/6/rotation = Quaternion(0.328408, 0.239321, 0.0544905, 0.912088)
+bones/7/rotation = Quaternion(0.124913, 0.338678, -0.874678, 0.323468)
+bones/8/rotation = Quaternion(0.489193, 0.416249, 0.120247, 0.756946)
+bones/9/position = Vector3(-0.780604, 1.56632, 7.60903e-08)
+bones/9/rotation = Quaternion(-0.197827, 0.0372416, 0.479646, 0.854059)
+bones/10/rotation = Quaternion(0.32618, -0.00195655, -0.0278808, 0.944894)
+bones/11/position = Vector3(-1.02086, 0.716174, 0.113354)
+bones/11/rotation = Quaternion(0.036188, -0.215499, 0.743877, 0.631583)
+bones/12/rotation = Quaternion(0.337747, -0.238459, -0.05604, 0.908804)
+bones/13/position = Vector3(-0.48463, -0.0180744, 0.139775)
+bones/13/rotation = Quaternion(0.207814, -0.345722, 0.851977, 0.333805)
+bones/14/rotation = Quaternion(0.489193, -0.416249, -0.120247, 0.756946)
+bones/15/position = Vector3(2.6113, 5.05908, 0.146522)
+bones/15/rotation = Quaternion(-0.530176, 0.361415, -0.266408, 0.719249)
+bones/16/position = Vector3(1.72192, 3.90882, -1.68329)
+bones/17/position = Vector3(3.34639, 2.25206, 0.274014)
+bones/18/position = Vector3(2.18357, 3.10957, -1.2032)
+bones/19/position = Vector3(1.53603, 0.12175, -0.161249)
+bones/19/rotation = Quaternion(-0.201914, 0.437379, -0.10146, 0.870423)
+bones/20/position = Vector3(1.639, 1.57789, -1.76082)
+bones/21/position = Vector3(-2.61315, 5.05964, 0.146522)
+bones/21/rotation = Quaternion(-0.530176, -0.361415, 0.266408, 0.719249)
+bones/22/position = Vector3(-1.72192, 3.90882, -1.68329)
+bones/23/position = Vector3(-3.34016, 2.26224, 0.274014)
+bones/24/position = Vector3(-2.18357, 3.10957, -1.2032)
+bones/25/position = Vector3(-1.53603, 0.12175, -0.161249)
+bones/25/rotation = Quaternion(-0.201914, -0.437379, 0.10146, 0.870423)
+bones/26/position = Vector3(-2.14221, 1.57789, -1.87206)
+
+[node name="Body" parent="Alien/alien/Armature/Skeleton3D" index="0"]
+blend_shapes/Shoot = 0.0
+
+[node name="RootBone" parent="Alien" index="1"]
+transform = Transform3D(-0.322, 0, -5.96046e-08, -1.49012e-08, 0.321908, -0.00771304, 3.72529e-08, -0.00771303, -0.321908, 1.90735e-06, 0.702045, -0.0119324)
+
+[node name="HeadBone" parent="Alien" index="2"]
+transform = Transform3D(-0.322, 0, -7.45058e-08, -1.49012e-08, 0.321998, -0.00119018, 3.72529e-08, -0.00119017, -0.321998, 3.8147e-06, 1.51119, 0.00629807)
+
+[node name="Eye" parent="Alien/HeadBone/Node3D" index="0"]
+transform = Transform3D(0.932953, 0.0363799, -0.358154, 0, 0.994881, 0.101056, 0.359997, -0.0942808, 0.928177, 0, 0, 0)
+
+[node name="AnimationTree" parent="Alien" index="4"]
+active = false
+parameters/StateMachine/playback = SubResource("AnimationNodeStateMachinePlayback_x1dfl")
+
+[node name="Alien2" parent="." index="10" instance=ExtResource("7_mkrw3")]
+transform = Transform3D(-0.246952, 0.426713, 0.870018, 0.151243, 0.903796, -0.400349, -0.957153, 0.0327178, -0.287731, -64.946, -2.94, 1.374)
+freeze = true
+script = null
+
+[node name="Skeleton3D" parent="Alien2/alien/Armature" index="1"]
+bones/0/position = Vector3(-9.25849e-17, 1.88394, -0.165675)
+bones/0/rotation = Quaternion(0, 0, 0, 1)
+bones/1/rotation = Quaternion(0, -0.194497, 0, 0.980903)
+bones/2/rotation = Quaternion(0, 0.194035, 0, 0.980995)
+bones/3/position = Vector3(0.845961, 1.56632, 0.133277)
+bones/3/rotation = Quaternion(-0.373573, 0.0768947, -0.318571, 0.867781)
+bones/4/rotation = Quaternion(0.00290397, 0.00207065, 0.000248184, 0.999994)
+bones/5/position = Vector3(1.01903, 0.716174, 0.18042)
+bones/5/rotation = Quaternion(-0.279797, 0.117213, -0.686051, 0.661293)
+bones/6/rotation = Quaternion(0.00313386, 0.253795, 0.000520015, 0.967253)
+bones/7/rotation = Quaternion(-0.0313949, 0.374495, -0.855138, 0.357081)
+bones/8/rotation = Quaternion(0.62962, 0.366852, 0.154765, 0.667118)
+bones/9/position = Vector3(-0.699737, 1.56506, -0.37169)
+bones/9/rotation = Quaternion(-0.447796, 0.0906539, 0.210997, 0.864142)
+bones/10/rotation = Quaternion(0.0811355, -0.00206376, -0.00693519, 0.996677)
+bones/11/position = Vector3(-0.933574, 0.715794, -0.259574)
+bones/11/rotation = Quaternion(-0.24242, -0.071822, 0.703542, 0.664156)
+bones/12/rotation = Quaternion(0.0344748, -0.253642, -0.0057202, 0.966667)
+bones/13/position = Vector3(-0.48463, -0.0180744, 0.139775)
+bones/13/rotation = Quaternion(-0.0313949, -0.374495, 0.855138, 0.357081)
+bones/14/rotation = Quaternion(0.62962, -0.366852, -0.154765, 0.667118)
+bones/15/position = Vector3(2.26526, 4.9081, -2.03191)
+bones/15/rotation = Quaternion(-0.478939, 0.379046, -0.240662, 0.754337)
+bones/16/position = Vector3(1.69688, 4.14302, -2.22301)
+bones/17/position = Vector3(3.38386, 2.31998, -1.47761)
+bones/18/position = Vector3(2.16771, 1.9655, -2.80831)
+bones/19/position = Vector3(1.53603, 0.12175, -0.161249)
+bones/19/rotation = Quaternion(-0.201914, 0.437379, -0.10146, 0.870423)
+bones/20/position = Vector3(0.979143, 1.57789, -2.1389)
+bones/21/position = Vector3(-1.94828, 4.90004, -2.32529)
+bones/21/rotation = Quaternion(-0.478939, -0.379046, 0.240662, 0.754337)
+bones/22/position = Vector3(-1.69182, 4.15053, -2.22301)
+bones/23/position = Vector3(-3.37945, 2.31067, -1.47761)
+bones/24/position = Vector3(-2.1623, 1.97351, -2.80831)
+bones/25/position = Vector3(-1.53603, 0.12175, -0.161249)
+bones/25/rotation = Quaternion(-0.201914, -0.437379, 0.10146, 0.870423)
+bones/26/position = Vector3(-0.979143, 1.57789, -2.1389)
+
+[node name="RootBone" parent="Alien2" index="1"]
+transform = Transform3D(-0.322, 0, -4.47035e-08, -3.72529e-09, 0.322, 1.86265e-09, 5.96046e-08, 1.86265e-09, -0.322, 1.90735e-06, 0.606629, 0.0533485)
+
+[node name="HeadBone" parent="Alien2" index="2"]
+transform = Transform3D(-0.322, 0, 0.000303462, -3.72529e-09, 0.322, 1.86265e-09, -0.000303455, 1.86265e-09, -0.322, 1.90735e-06, 1.41655, 0.0533485)
+
+[node name="Eye" parent="Alien2/HeadBone/Node3D" index="0"]
+transform = Transform3D(0.979575, 0.0331874, 0.19832, 0, 0.986286, -0.165048, -0.201078, 0.161677, 0.966141, 0, 0, 0)
+
+[node name="AnimationTree" parent="Alien2" index="4"]
+active = false
+parameters/StateMachine/playback = SubResource("AnimationNodeStateMachinePlayback_s481b")
+
+[editable path="Alien"]
+[editable path="Alien/alien"]
+[editable path="Alien2"]
+[editable path="Alien2/alien"]

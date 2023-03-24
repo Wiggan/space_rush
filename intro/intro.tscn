@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://c4lqkf58q7nm4"]
+[gd_scene load_steps=25 format=3 uid="uid://c4lqkf58q7nm4"]
 
 [ext_resource type="PackedScene" uid="uid://b0m0uq47vb7oc" path="res://intro/models.glb" id="1_bmbin"]
 [ext_resource type="Environment" uid="uid://de78xvl6w835y" path="res://intro/env.tres" id="2_67vup"]
@@ -9,6 +9,7 @@
 [ext_resource type="FontFile" uid="uid://cgt1sfn1x2cfc" path="res://Gruppo-Regular.ttf" id="5_kqivb"]
 [ext_resource type="Script" path="res://intro/AnimationPlayer.gd" id="6_rxu32"]
 [ext_resource type="Script" path="res://intro/start_button.gd" id="7_sao8t"]
+[ext_resource type="Texture2D" uid="uid://erdbubjq3330" path="res://intro/scope.png" id="10_krcjp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_csrfk"]
 vertex_color_use_as_albedo = true
@@ -304,12 +305,8 @@ tracks/8/keys = {
 "end_offset": 0.0,
 "start_offset": 0.0,
 "stream": ExtResource("3_c3y0t")
-}, {
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource("4_3hkom")
 }],
-"times": PackedFloat32Array(1.49012e-08, 1.4, 2)
+"times": PackedFloat32Array(1.49012e-08, 1.4)
 }
 tracks/8/use_blend = false
 tracks/9/type = "value"
@@ -348,6 +345,21 @@ tracks/11/keys = {
 "update": 1,
 "values": [false, true]
 }
+tracks/12/type = "audio"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("AudioStreamPlayer2")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("4_3hkom")
+}],
+"times": PackedFloat32Array(1.9)
+}
+tracks/12/use_blend = true
 
 [sub_resource type="Animation" id="Animation_jlp0k"]
 resource_name = "start"
@@ -522,7 +534,11 @@ transform = Transform3D(0.684534, -0.435637, -0.584494, 0, -0.801796, 0.597597, 
 pitch_scale = 0.28
 bus = &"SFX"
 
-[node name="Control" type="Control" parent="." index="8"]
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="." index="8"]
+volume_db = -16.952
+bus = &"SFX"
+
+[node name="Control" type="Control" parent="." index="9"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -530,7 +546,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="Control" index="0"]
+[node name="TextureRect" type="TextureRect" parent="Control" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_krcjp")
+expand_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="Control" index="1"]
+visible = false
 material = SubResource("ShaderMaterial_mggod")
 layout_mode = 1
 anchors_preset = 15
@@ -541,7 +568,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Control" index="1"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Control" index="2"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -563,7 +590,7 @@ Moon, here I come!"
 visible_characters = 0
 visible_ratio = 0.0
 
-[node name="Button" type="Button" parent="Control" index="2"]
+[node name="Button" type="Button" parent="Control" index="3"]
 visible = false
 custom_minimum_size = Vector2(400, 100)
 layout_mode = 1
@@ -584,7 +611,7 @@ theme_override_font_sizes/font_size = 35
 text = "Start the game already!"
 script = ExtResource("7_sao8t")
 
-[node name="ColorRect2" type="ColorRect" parent="Control" index="3"]
+[node name="ColorRect2" type="ColorRect" parent="Control" index="4"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -594,7 +621,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="RichTextLabel2" type="RichTextLabel" parent="Control" index="4"]
+[node name="RichTextLabel2" type="RichTextLabel" parent="Control" index="5"]
 visible = false
 layout_mode = 1
 anchors_preset = 8

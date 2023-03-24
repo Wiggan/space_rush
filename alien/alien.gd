@@ -10,8 +10,8 @@ enum States {
 	MeleeAttacking
 }
 
-const AGGRO_RANGE = 25
-const ATTACK_RANGE = 3
+const AGGRO_RANGE = 45
+const ATTACK_RANGE = 2
 const SMOOTH_SPEED = 8.0
 
 @export var velocity = 2.5
@@ -24,12 +24,14 @@ signal on_death
 @onready var health = max_health
 func take_damage(amount):
 	health = max(0, health-amount)
+	$Death.play()
 	if health == 0:
 		on_death.emit()
 		set_process(false)
 		set_physics_process(false)
 		$CollisionShape3D.set_deferred("disabled", true)
 		$AnimationTree["parameters/StateMachine/playback"].travel("Death")
+		$CleanUpTimer.start()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -62,41 +64,51 @@ func _physics_process(delta):
 	$NavigationAgent3D.set_velocity(new_velocity)
 
 	var targ = next_path_position - global_position
-	rotation.y = lerp_angle(rotation.y, atan2(-targ.x, -targ.z), delta * SMOOTH_SPEED)
+	rotation.y = lerp_angle(rotation.y, atan2(-targ.x, -targ.z), 1)#delta * SMOOTH_SPEED)
 
 
 
 func _on_navigation_agent_3d_velocity_computed(safe_velocity):
 	set_linear_velocity(safe_velocity)
-
+var time_spent_in_state = 0
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _process(delta):
+	time_spent_in_state += delta
 	if state == States.Idle or state == States.RandomWalking:
 		if not cooldown and global_position.distance_to(Globals.player.global_position) < AGGRO_RANGE:
-			if randf() > 0.5:
+			time_spent_in_state = 0
+			if randf() > 0.6:
 				state = States.Hunting
 				$AnimationTree.set("parameters/StateMachine/conditions/Running", true)
 				$AnimationTree.set("parameters/StateMachine/conditions/Idle", false)
 				$NavigationAgent3D.set_target_position(Globals.player.global_position)
+				$Hunt.play()
 			else:
 				state = States.Shooting
 				$AnimationTree.set("parameters/Shoot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+				$Shoot.play()
 		elif state == States.Idle:
-			if randf() > 0.99:
+			if time_spent_in_state > 1: 
 				state = States.RandomWalking
 				$AnimationTree.set("parameters/StateMachine/conditions/Running", true)
 				$AnimationTree.set("parameters/StateMachine/conditions/Idle", false)
-				$NavigationAgent3D.set_target_position(global_position + Vector3((randf() - 0.5) * 20, 0, (randf() - 0.5) * 20))
+				$NavigationAgent3D.set_target_position(global_position + Vector3((randf() - 0.5) * 5, 0, (randf() - 0.5) * 5))
 	elif state == States.Hunting:
+		if time_spent_in_state > 0.5:
+				$NavigationAgent3D.set_target_position(Globals.player.global_position)
+				time_spent_in_state = 0
+				if randf() > 0.9:
+					$AnimationTree.set("parameters/Shoot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+					$Shoot.play()
 		if global_position.distance_to(Globals.player.global_position) < ATTACK_RANGE:
 				state = States.MeleeAttacking
+				time_spent_in_state = 0
 				$AnimationTree.set("parameters/StateMachine/conditions/Running", false)
 				$AnimationTree.set("parameters/StateMachine/conditions/Idle", true)
-				$AnimationTree.set("parameters/Melee/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-
-		
+				$AnimationTree.set("parameters/Melee/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)	
 		
 func action_done():
+	time_spent_in_state = 0
 	state = States.Idle
 	$AnimationTree.set("parameters/StateMachine/conditions/Running", false)
 	$AnimationTree.set("parameters/StateMachine/conditions/Idle", true)
@@ -112,3 +124,11 @@ func shoot():
 
 func _on_cooldown_timer_timeout():
 	cooldown = false
+
+
+func _on_clean_up_timer_timeout():
+	queue_free()
+	
+func hit_player():
+	if global_position.distance_to(Globals.player.global_position) < ATTACK_RANGE:
+		Globals.player.take_damage(30)

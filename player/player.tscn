@@ -1,8 +1,9 @@
-[gd_scene load_steps=35 format=3 uid="uid://ptte4ipxoxac"]
+[gd_scene load_steps=37 format=3 uid="uid://ptte4ipxoxac"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_0ngqd"]
 [ext_resource type="PackedScene" uid="uid://ccui5xphixht8" path="res://gun/gun.tscn" id="1_ugslo"]
 [ext_resource type="AudioStream" uid="uid://xhl3gjkylpt4" path="res://player/walk_sfx.tres" id="3_8h0x5"]
+[ext_resource type="AudioStream" uid="uid://5xsk5rens8tc" path="res://audio/sfx/hurt- miniBit.wav" id="3_y7ld5"]
 [ext_resource type="AudioStream" uid="uid://cdn2q5ki3lkga" path="res://player/jump_sfx.tres" id="4_u4k3n"]
 [ext_resource type="AudioStream" uid="uid://bals3yb0ec42p" path="res://player/lower_sfx.tres" id="5_88dsy"]
 [ext_resource type="Script" path="res://player/HUD.gd" id="6_gqvfd"]
@@ -14,6 +15,11 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4nais"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_5w7lx"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dtlno"]
+streams_count = 1
+stream_0/stream = ExtResource("3_y7ld5")
+stream_0/weight = 1.0
 
 [sub_resource type="Animation" id="Animation_74wa6"]
 length = 0.001
@@ -100,6 +106,18 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("HUD/Time:theme_override_font_sizes/font_size")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [28]
 }
 
 [sub_resource type="Animation" id="Animation_7djs6"]
@@ -318,7 +336,7 @@ tracks/2/path = NodePath("HUD/Time:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4),
+"times": PackedFloat32Array(0, 0.26, 0.52, 0.78, 1.04, 1.3, 1.56, 1.82),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1)]
@@ -334,6 +352,28 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.0, -80.0]
+}
+tracks/4/type = "animation"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HUD/Time/AnimationPlayer")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": PackedStringArray("[stop]"),
+"times": PackedFloat32Array(0)
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("HUD/Time:theme_override_font_sizes/font_size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [28, 147]
 }
 
 [sub_resource type="Animation" id="Animation_3yltt"]
@@ -387,7 +427,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../HBoxContainer2/SubViewportContainer:modulate")
+tracks/0/path = NodePath("../HBoxContainer2/HBoxContainer/SubViewportContainer:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -416,7 +456,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../HBoxContainer2/SubViewportContainer:modulate")
+tracks/0/path = NodePath("../HBoxContainer2/HBoxContainer/SubViewportContainer:modulate")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -596,6 +636,12 @@ collision_mask = 5
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.820186, 0)
+stream = SubResource("AudioStreamRandomizer_dtlno")
+bus = &"SFX"
+
+[node name="AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.820186, 0)
+stream = SubResource("AudioStreamRandomizer_dtlno")
 bus = &"SFX"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -639,7 +685,7 @@ size_flags_vertical = 1
 value = 100.0
 show_percentage = false
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="HUD"]
+[node name="HBoxContainer2" type="VBoxContainer" parent="HUD"]
 layout_mode = 0
 offset_left = 31.0
 offset_top = 21.0
@@ -647,29 +693,40 @@ offset_right = 577.0
 offset_bottom = 121.0
 theme_override_constants/separation = 6
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD/HBoxContainer2"]
+[node name="Label2" type="Label" parent="HUD/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("7_2p13q")
+theme_override_font_sizes/font_size = 28
+text = "MENU: Q"
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/HBoxContainer2"]
+layout_mode = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD/HBoxContainer2/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="SubViewport" type="SubViewport" parent="HUD/HBoxContainer2/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="HUD/HBoxContainer2/HBoxContainer/SubViewportContainer"]
 own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(100, 100)
 render_target_update_mode = 4
 
-[node name="OmniLight3D" type="OmniLight3D" parent="HUD/HBoxContainer2/SubViewportContainer/SubViewport"]
+[node name="OmniLight3D" type="OmniLight3D" parent="HUD/HBoxContainer2/HBoxContainer/SubViewportContainer/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0331989, 0.188948, -1.24486)
 light_energy = 11.95
 
-[node name="Camera3D" type="Camera3D" parent="HUD/HBoxContainer2/SubViewportContainer/SubViewport"]
+[node name="Camera3D" type="Camera3D" parent="HUD/HBoxContainer2/HBoxContainer/SubViewportContainer/SubViewport"]
 projection = 1
 size = 0.197
 
-[node name="gold" parent="HUD/HBoxContainer2/SubViewportContainer/SubViewport" instance=ExtResource("8_ytrhv")]
+[node name="gold" parent="HUD/HBoxContainer2/HBoxContainer/SubViewportContainer/SubViewport" instance=ExtResource("8_ytrhv")]
 transform = Transform3D(-0.0759023, -0.73695, -0.671673, -0.266945, 0.664046, -0.698415, 0.960718, 0.126288, -0.247127, 0, 0, -1.39117)
 
-[node name="GoldCount" type="Label" parent="HUD/HBoxContainer2"]
+[node name="GoldCount" type="Label" parent="HUD/HBoxContainer2/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("7_2p13q")
@@ -720,10 +777,11 @@ offset_bottom = -85.166
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("7_2p13q")
+theme_override_font_sizes/font_size = 26
 theme_override_styles/normal = SubResource("StyleBoxFlat_gesb7")
 text = "Oh snap, I forgot my portable oxygen tank.
 And not only gold came with the comet!
-Better hurry up..."
+Better hurry up... Deep breath!"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="HUD/Instructions"]
 autoplay = "new_animation"
@@ -743,7 +801,7 @@ mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 241.0
+wait_time = 121.0
 one_shot = true
 autostart = true
 
@@ -895,6 +953,30 @@ theme_override_font_sizes/font_size = 28
 text = "LEFT CLICK"
 vertical_alignment = 1
 
+[node name="Label17" type="Label" parent="Menu/VBoxContainer2/Controls/Controls"]
+layout_mode = 2
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("7_2p13q")
+theme_override_font_sizes/font_size = 28
+text = "JUMPSHOT"
+vertical_alignment = 1
+
+[node name="Label18" type="Label" parent="Menu/VBoxContainer2/Controls/Controls"]
+layout_mode = 2
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("7_2p13q")
+theme_override_font_sizes/font_size = 28
+text = "-"
+vertical_alignment = 1
+
+[node name="Label19" type="Label" parent="Menu/VBoxContainer2/Controls/Controls"]
+layout_mode = 2
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("7_2p13q")
+theme_override_font_sizes/font_size = 28
+text = "RIGHT CLICK"
+vertical_alignment = 1
+
 [node name="Settings" type="GridContainer" parent="Menu/VBoxContainer2"]
 layout_mode = 2
 theme_override_constants/h_separation = 26
@@ -954,7 +1036,7 @@ layout_mode = 2
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("7_2p13q")
 theme_override_font_sizes/font_size = 28
-text = "SENS:
+text = "MOUSE:
 "
 vertical_alignment = 1
 
@@ -972,7 +1054,7 @@ layout_mode = 2
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("7_2p13q")
 theme_override_font_sizes/font_size = 28
-text = "Brightness:
+text = "BRIGHTNESS:
 "
 vertical_alignment = 1
 
@@ -1014,6 +1096,7 @@ emission_sphere_radius = 128.0
 gravity = Vector3(0, 0, 0)
 hue_variation_max = 0.59
 
+[connection signal="shots_fired" from="pivot/gun" to="." method="_on_gun_shots_fired"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="visibility_changed" from="Menu" to="Menu/VBoxContainer2/Settings" method="_on_menu_visibility_changed"]
 [connection signal="value_changed" from="Menu/VBoxContainer2/Settings/MasterSlider" to="Menu/VBoxContainer2/Settings" method="_on_master_slider_value_changed"]

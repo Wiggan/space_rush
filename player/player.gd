@@ -1,8 +1,10 @@
 extends CharacterBody3D
 
 const SPEED = 5.0
-const JUMP_VELOCITY = 4.5
+const JUMP_VELOCITY = 3
+const RECOIL_SPEED = 2.0
 
+var local_velocity = Vector3.ZERO
 @onready var ray = $pivot/Camera3D/RayCast3D
 
 var death_screen = preload("res://player/death_screen.tscn")
@@ -11,9 +13,10 @@ func show_death_screen():
 
 signal on_death
 var gold_count = 0
-@export var max_health: float = 1
+@export var max_health: float = 100
 @onready var health = max_health
 func take_damage(amount):
+	$AudioStreamPlayer3D2.play()
 	health = max(0, health-amount)
 	if health == 0:
 		on_death.emit()
@@ -49,17 +52,19 @@ func _physics_process(delta):
 	
 	# Add the gravity.
 	if not is_on_floor():
-		velocity.y -= gravity * delta
+		local_velocity.y -= gravity * delta
 		if was_on_floor:
 			$AnimationPlayer.play("lower")
-
+	else:
+		local_velocity.y = 0
+		
 	# Handle Jump.
 	if Input.is_action_just_pressed("ui_accept"):
 		if is_on_floor():
-			velocity.y = JUMP_VELOCITY
+			local_velocity.y = JUMP_VELOCITY
 			$AnimationPlayer.play("jump")
 		elif $AnimationPlayer.current_animation != "lower":
-			velocity.y = -JUMP_VELOCITY
+			local_velocity.y -= JUMP_VELOCITY
 			$AnimationPlayer.play("lower")
 			
 	was_on_floor = is_on_floor()
@@ -68,18 +73,18 @@ func _physics_process(delta):
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+		local_velocity.x = direction.x * SPEED
+		local_velocity.z = direction.z * SPEED
 		if not $AnimationPlayer.is_playing() and is_on_floor():
 			$AnimationPlayer.play("walk")
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
+		local_velocity.x = move_toward(local_velocity.x, 0, SPEED)
+		local_velocity.z = move_toward(local_velocity.z, 0, SPEED)
 	
-	if $AnimationPlayer.is_playing() and velocity.length() < 0.001:
+	if $AnimationPlayer.is_playing() and local_velocity.length() < 0.001:
 		$AnimationPlayer.stop()
 	
-	
+	velocity = impulse_velocity + local_velocity
 	move_and_slide()
 
 
@@ -88,3 +93,14 @@ func _on_timer_timeout():
 	set_process(false)
 	set_physics_process(false)
 	$AnimationPlayer.play("timeup")
+
+@onready var impulse_tween = null
+var impulse_velocity = Vector3.ZERO
+func _on_gun_shots_fired(count):
+	if count > 1:
+		if impulse_tween:
+			impulse_tween.kill()
+		impulse_tween = create_tween()
+		impulse_tween.set_ease(Tween.EASE_IN)
+		impulse_tween.tween_property(self, "impulse_velocity", Vector3.ZERO, 2).from($pivot/Camera3D/RayCast3D.global_transform.basis.z * SPEED * count)
+		

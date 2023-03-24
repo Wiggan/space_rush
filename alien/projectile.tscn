@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://clc53i33qnjpx"]
+[gd_scene load_steps=16 format=3 uid="uid://clc53i33qnjpx"]
 
 [ext_resource type="Script" path="res://gun/bullet/bullet.gd" id="1_ia53i"]
+[ext_resource type="AudioStream" uid="uid://ch3au8wtgv6rn" path="res://audio/sfx/alien_projectile.wav" id="2_b3n21"]
 [ext_resource type="AudioStream" uid="uid://d22twhc466d1c" path="res://gun/bullet/explosion_sfx.tres" id="2_gt6qx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ykt4g"]
@@ -34,6 +35,12 @@ point_count = 2
 [sub_resource type="Gradient" id="Gradient_ujpun"]
 offsets = PackedFloat32Array(0, 0.483649, 1)
 colors = PackedColorArray(0, 0.760784, 0, 0.490196, 0.482353, 0.878431, 0, 0.254902, 1, 1, 1, 0)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_aci54"]
+streams_count = 1
+random_pitch = 1.22
+stream_0/stream = ExtResource("2_b3n21")
+stream_0/weight = 1.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_im4ij"]
 radius = 0.143
@@ -201,8 +208,9 @@ color = Color(2, 14.79, 15.97, 1)
 color_ramp = SubResource("Gradient_ujpun")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="CSGSphere3D"]
-stream = ExtResource("2_gt6qx")
-pitch_scale = 0.44
+stream = SubResource("AudioStreamRandomizer_aci54")
+volume_db = -7.853
+autoplay = true
 bus = &"SFX"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -217,6 +225,9 @@ autostart = true
 libraries = {
 "": SubResource("AnimationLibrary_u5v07")
 }
+
+[node name="CleanUpTimer" type="Timer" parent="."]
+wait_time = 3.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered" flags=18]
 [connection signal="timeout" from="Timer" to="." method="queue_free" flags=18]
